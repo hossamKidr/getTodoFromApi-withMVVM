@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todos_from_api/models/todo_model.dart';
+import 'package:todos_from_api/repository/api_todos.dart';
 import 'package:todos_from_api/view_models/home_view_model.dart';
 
 class HomeView extends StatefulWidget {
@@ -8,7 +9,7 @@ class HomeView extends StatefulWidget {
   @override
   State<HomeView> createState() => _HomeViewState();
 }
-HomeViewModel viewModel = HomeViewModel();
+HomeViewModel viewModel = HomeViewModel(baseRepository: ApiTodos());
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: Center(
         child: FutureBuilder<List<TodoModel>>(
-          future: viewModel.getTodosFromApi(),
+          future: viewModel.fetchAllData(),
           builder: (context,snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator(
